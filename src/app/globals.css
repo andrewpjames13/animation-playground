@@ -31,3 +31,18 @@ body {
     text-wrap: balance;
   }
 }
+
+#progress {
+  transform: rotate(-90deg);
+}
+
+circle {
+  stroke-dashoffset: 0;
+  stroke-width: 15%;
+  fill: none;
+}
+
+#progress .indicator {
+  stroke: white;
+}
+
