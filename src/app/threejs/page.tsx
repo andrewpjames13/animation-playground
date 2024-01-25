@@ -19,22 +19,22 @@ export default function Home() {
     const material = new THREE.MeshToonMaterial({ color: "#ffeded" });
 
     // Meshes
-    const mesh1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material);
-    const mesh2 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material);
-    const mesh3 = new THREE.Mesh(
+    const doughnutMesh = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material);
+    const coneMesh = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material);
+    const knotMesh = new THREE.Mesh(
       new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
       material
     );
 
     const objectsDistance = 4;
-    mesh1.position.y = -objectsDistance * 0;
-    mesh2.position.y = -objectsDistance * 1;
-    mesh3.position.y = -objectsDistance * 2;
-    mesh1.position.x = 2;
-    mesh2.position.x = -2;
-    mesh3.position.x = 2;
+    doughnutMesh.position.y = -objectsDistance * 0;
+    coneMesh.position.y = -objectsDistance * 1;
+    knotMesh.position.y = -objectsDistance * 2;
+    doughnutMesh.position.x = 2;
+    coneMesh.position.x = -2;
+    knotMesh.position.x = 2;
 
-    scene.add(mesh1, mesh2, mesh3);
+    scene.add(doughnutMesh, coneMesh, knotMesh);
 
     /**
      * Lights
@@ -104,9 +104,7 @@ export default function Home() {
     /**
      * Cursor
      */
-    const cursor = {};
-    cursor.x = 0;
-    cursor.y = 0;
+    const cursor = { x: 0, y: 0 };
 
     window.addEventListener("mousemove", (event) => {
       cursor.x = event.clientX / sizes.width - 0.5;
@@ -119,7 +117,7 @@ export default function Home() {
     const clock = new THREE.Clock();
     let previousTime = 0;
 
-    const sectionMeshes = [mesh1, mesh2, mesh3];
+    const sectionMeshes = [doughnutMesh, coneMesh, knotMesh];
 
     /**
      * Particles
