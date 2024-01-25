@@ -31,7 +31,7 @@ export default function Home() {
   })
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-24">
+    <main className="flex min-h-screen flex-col items-center justify-between">
       <svg id="progress" width="100" height="100" viewBox="0 0 100 100" className='fixed top-6 right-6'>
         <circle cx="50" cy="50" r="30" pathLength="1" className="bg" />
         <motion.circle
@@ -44,35 +44,28 @@ export default function Home() {
         />
       </svg>
       <div className='h-[500vh] w-full'>
-        <div className='w-full h-[100vh] px-24 bg-red-300'></div>
+        <div className='w-full h-[100vh] px-24 flex justify-center items-center'>
+          <h1 className='text-9xl text-center'>Horizontal Scroll When Sticky</h1>
+        </div>
         <div className='w-full h-[400vh]'>
           <div ref={ref} className='sticky top-0 overflow-hidden h-[100vh] '>
             <div id='scroll-section' className='h-full w-[400vw] will-change-transform flex justify-between items-center px-[5vw] absolute top-0'>
-              <div className='w-[600px] h-[80%] bg-red-500' />
-              <div className='w-[600px] h-[80%] bg-red-500' />
-              <div className='w-[600px] h-[80%] bg-red-500' />
-              <div className='w-[600px] h-[80%] bg-red-500' />
+              <Link className='flex items-end text-8xl p-6 w-[12%] h-[80%] bg-white text-black font-bold leading-[80px] tracking-tighter' href='/threejs'>
+                Threejs Scroll & Mouse Events
+              </Link>
+              <Link className='flex items-end text-8xl p-6 w-[12%] h-[80%] bg-white text-black font-bold leading-[80px] tracking-tighter' href='/threejs/fiber'>
+                React Three Fiber Scroll & Mouse Events
+              </Link>
+              <Link className='flex items-end text-8xl p-6 w-[12%] h-[80%] bg-white text-black font-bold leading-[80px] tracking-tighter pointer-events-none opacity-25' href='/threejs/fiber'></Link>
+              <Link className='flex items-end text-8xl p-6 w-[12%] h-[80%] bg-white text-black font-bold leading-[80px] tracking-tighter pointer-events-none opacity-25' href='/threejs/fiber'></Link>
+              <Link className='flex items-end text-8xl p-6 w-[12%] h-[80%] bg-white text-black font-bold leading-[80px] tracking-tighter pointer-events-none opacity-25' href='/threejs/fiber'></Link>
+              <Link className='flex items-end text-8xl p-6 w-[12%] h-[80%] bg-white text-black font-bold leading-[80px] tracking-tighter pointer-events-none opacity-25' href='/threejs/fiber'></Link>
             </div>
           </div>
-          {/* <ul ref={ref} className='sticky top-0'>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul> */}
         </div>
-        <div className='w-full h-[100vh] px-24 bg-red-500'></div>
-        <div className='w-full h-[100vh] px-24 bg-red-600'></div>
-        <div className='w-full h-[100vh] px-24 bg-red-700'></div>
-        {/* <button onClick={() => lenis?.scrollTo(0, { immediate: false })}>Scroll to top</button> */}
-        <Link href='/threejs'>Go to test</Link>
+        <div className='w-full h-[100vh] px-24 flex justify-center items-center'>
+          <h1 className='text-9xl text-center'>That was cool</h1>
+        </div>
       </div>
     </main>
   );

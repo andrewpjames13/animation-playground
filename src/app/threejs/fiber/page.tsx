@@ -20,8 +20,9 @@ const Mesh = (props: MeshProps) => {
   )
 }
 
+const objectsDistance = 4;
+
 const Particles = ({ count = 200 }: { count?: number }) => {
-  const objectsDistance = 4;
   const points = useMemo(() => {
     // const p = new Array(count).fill(0).map((v) => (0.5 - Math.random()) * 20);
     // return new BufferAttribute(new Float32Array(p), 3);
@@ -52,7 +53,6 @@ const Particles = ({ count = 200 }: { count?: number }) => {
 }
 
 export const ObjectGroup = () => {
-  const objectsDistance = useRef(4);
   const previousTime = useRef(0);
   const scrollY = useRef(0);
   const sizes = useRef({ width: 0, height: 0 });
@@ -86,28 +86,29 @@ export const ObjectGroup = () => {
     previousTime.current = elapsedTime;
 
     // move camera so canvas is scrolling with page
-    camera.position.y = (-scrollY.current / size.height) * objectsDistance.current;
+    camera.position.y = (-scrollY.current / size.height) * objectsDistance;
 
     // move camera so canvas is following mouse
     const parallaxX = cursor.current.x * 0.5;
     const parallaxY = -cursor.current.y * 0.5;
     groupRef.current!.position.x += (parallaxX - groupRef.current!.position.x) * 5 * deltaTime;
     groupRef.current!.position.y += (parallaxY - groupRef.current!.position.y) * 5 * deltaTime;
+    // groupRef.current!.position.z = scrollY.current * 0.001;
   })
 
   return (
     <group ref={groupRef}>
-      <Mesh position={[2, -objectsDistance.current * 0, 0]}>
+      <Mesh position={[2, -objectsDistance * 0, 0]}>
         <torusGeometry args={[1, 0.4, 16, 60]} />
         <meshToonMaterial color='#ffeded' />
       </Mesh>
 
-      <Mesh position={[-2, -objectsDistance.current * 1, 0]}>
+      <Mesh position={[-2, -objectsDistance * 1, 0]}>
         <coneGeometry args={[1, 2, 32]} />
         <meshToonMaterial color='#ffeded' />
       </Mesh>
 
-      <Mesh position={[2, -objectsDistance.current * 2, 0]}>
+      <Mesh position={[2, -objectsDistance * 2, 0]}>
         <torusKnotGeometry args={[0.8, 0.35, 100, 16]} />
         <meshToonMaterial color='#ffeded' />
       </Mesh>
