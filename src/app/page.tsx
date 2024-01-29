@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 export default function Home() {
-  const ref = useRef<HTMLDivElement>(null);
+  const horRef = useRef<HTMLDivElement>(null);
+  const zoomRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function Home() {
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const section = document.getElementById("scroll-section");
-    const offsetTop = ref.current?.parentElement?.offsetTop;
+    const offsetTop = horRef.current?.parentElement?.offsetTop;
 
     const scrollPositionInPixels = window.scrollY;
     // same thing but this uses the latest value passed in by framer
@@ -45,6 +46,43 @@ export default function Home() {
     if (section) {
       section.style.transform = `translateX(-${percent}vw)`;
     }
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const section = document.getElementById("zoom-section");
+    const doorsSection = document.getElementById("doors-section");
+    const zoomTitle = document.getElementById("zoom-title");
+    const zoomSubTitle = document.getElementById("zoom-subtitle");
+    const offsetTop = zoomRef.current?.parentElement?.offsetTop;
+
+    const scrollPositionInPixels = window.scrollY;
+    // same thing but this uses the latest value passed in by framer
+    // const scrollHeight = document.body.scrollHeight - document.documentElement.clientHeight
+    // const scrollPositionInPixels = scrollHeight * latest
+
+    // its Sticky when this equals 0
+    const stickyTop = scrollPositionInPixels - offsetTop!;
+    let sharedPercent = (stickyTop / window.innerHeight) * 100;
+    let percent = sharedPercent;
+    let opacity = sharedPercent;
+    let doorPercent = sharedPercent;
+
+    // 300 because we are doing 400vw bellow and then scrolling stops when it stops being sticky
+    // if you want it to animate still when its not sticky anymore, change 300 to 400
+    percent = (percent < 3 ? 3 : percent > 300 ? 300 : percent) / 8;
+    opacity = (opacity < 0 ? 0 : opacity > 300 ? 300 : opacity) / 2;
+    doorPercent =
+      (doorPercent < 0 ? 0 : doorPercent > 300 ? 300 : doorPercent) / 3;
+
+    section!.style.transform = `scale(${percent})`;
+    section!.style.opacity = `${opacity * 6}%`;
+
+    const titleMove = doorPercent <= 10 ? 0 : doorPercent - 10;
+    zoomTitle!.style.transform = `translateY(-${titleMove}vw)`;
+    zoomSubTitle!.style.transform = `translateY(${titleMove}vw)`;
+
+    const width = doorPercent - 50 <= 0 ? 0 : doorPercent - 50;
+    doorsSection!.style.width = `${width * 2}vw`;
   });
 
   return (
@@ -73,7 +111,7 @@ export default function Home() {
           </h1>
         </div>
         <div className="w-full h-[400vh]">
-          <div ref={ref} className="sticky top-0 overflow-hidden h-[100vh] ">
+          <div ref={horRef} className="sticky top-0 h-[100vh]">
             <div
               id="scroll-section"
               className="h-full w-[400vw] will-change-transform flex justify-between items-center px-[5vw] absolute top-0"
@@ -107,8 +145,50 @@ export default function Home() {
             </div>
           </div>
         </div>
+
         <div className="w-full h-[100vh] px-24 flex justify-center items-center">
           <h1 className="text-9xl text-center">That was cool</h1>
+        </div>
+
+        <div className="w-full h-[400vh]">
+          <div
+            ref={zoomRef}
+            className="sticky top-0 h-[100vh] w-[100vw] flex justify-center items-center"
+          >
+            <div className="h-[100vh] w-[100vw] overflow-hidden relative">
+              <div
+                id="zoom-title"
+                className="h-[100vh] w-[100vw] flex px-[5vw] absolute top-0 pt-10"
+              >
+                <h1 className="text-6xl text-center">ZOOM SCROLL</h1>
+              </div>
+
+              <div
+                id="zoom-subtitle"
+                className="h-[100vh] w-[100vw] flex px-[5vw] absolute top-0 pb-10 justify-end items-end"
+              >
+                <h1 className="text-6xl text-center">ZOOM SCROLL</h1>
+              </div>
+
+              <div
+                id="zoom-section"
+                className="h-[100vh] w-[100vw] flex justify-center items-center px-[5vw] absolute top-0 opacity-[10%]"
+              >
+                <h1 className="text-[19vh] text-center font-bold mr-[13px]">
+                  ENTER
+                </h1>
+              </div>
+
+              <div
+                id="doors-section"
+                className="h-[100vh] w-[0vw] flex justify-center items-center absolute top-0 left-1/2 translate-x-[-50%] bg-white"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full h-[100vh] px-24 flex justify-center items-center bg-white">
+          <h1 className="text-9xl text-center text-black">That was cool</h1>
         </div>
       </div>
     </main>
