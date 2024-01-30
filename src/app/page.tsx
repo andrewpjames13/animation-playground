@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 export default function Home() {
   const horRef = useRef<HTMLDivElement>(null);
   const zoomRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { scrollYProgress } = useScroll();
 
   useEffect(() => {
@@ -83,6 +84,27 @@ export default function Home() {
 
     const width = doorPercent - 50 <= 0 ? 0 : doorPercent - 50;
     doorsSection!.style.width = `${width * 2}vw`;
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const section = document.getElementById("videoContainer");
+    const offsetTop = section?.offsetTop;
+    const duration = videoRef.current?.duration;
+    const scrollPositionInPixels = window.scrollY;
+
+    // same thing but this uses the latest value passed in by framer
+    // const scrollHeight = document.body.scrollHeight - document.documentElement.clientHeight
+    // const scrollPositionInPixels = scrollHeight * latest
+
+    // its Sticky when this equals 0
+    const stickyTop = scrollPositionInPixels - offsetTop!;
+    let percent = (stickyTop / window.innerHeight) * 100;
+
+    // 500 because we are doing 600vw bellow and then scrolling stops when it stops being sticky
+    // if you want it to animate still when its not sticky anymore, change 500 to 600
+    percent = percent < 0 ? 0 : percent > 500 ? 500 : percent;
+
+    videoRef.current!.currentTime = (percent / 500) * duration!;
   });
 
   return (
@@ -182,6 +204,34 @@ export default function Home() {
               <div
                 id="doors-section"
                 className="h-[100vh] w-[0vw] flex justify-center items-center absolute top-0 left-1/2 translate-x-[-50%] bg-white"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full h-[100vh] px-24 flex justify-center items-center bg-white">
+          <h1 className="text-9xl text-center text-black">That was cool</h1>
+        </div>
+
+        <div id="videoContainer" className="w-full h-[600vh] bg-white">
+          <div className="sticky top-0 h-[100vh] w-[100vw] flex justify-center items-center">
+            <div className="h-[100vh] w-[100vw] relative">
+              <video
+                ref={videoRef}
+                controls={false}
+                src="/Sequence03.mp4"
+                autoPlay={false}
+                loop={false}
+                style={{
+                  width: "80vw",
+                  maxWidth: "1500px",
+                  filter: "drop-shadow(5px 5px 10px #000)",
+                  borderRadius: "10px",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
               />
             </div>
           </div>
