@@ -1,6 +1,6 @@
 "use client";
 
-import { easeIn, motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
@@ -57,9 +57,6 @@ export default function Home() {
     const offsetTop = zoomRef.current?.parentElement?.offsetTop;
 
     const scrollPositionInPixels = window.scrollY;
-    // same thing but this uses the latest value passed in by framer
-    // const scrollHeight = document.body.scrollHeight - document.documentElement.clientHeight
-    // const scrollPositionInPixels = scrollHeight * latest
 
     // its Sticky when this equals 0
     const stickyTop = scrollPositionInPixels - offsetTop!;
@@ -91,10 +88,6 @@ export default function Home() {
     const offsetTop = section?.offsetTop;
     const duration = videoRef.current?.duration;
     const scrollPositionInPixels = window.scrollY;
-
-    // same thing but this uses the latest value passed in by framer
-    // const scrollHeight = document.body.scrollHeight - document.documentElement.clientHeight
-    // const scrollPositionInPixels = scrollHeight * latest
 
     // its Sticky when this equals 0
     const stickyTop = scrollPositionInPixels - offsetTop!;
